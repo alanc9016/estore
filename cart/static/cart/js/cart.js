@@ -16,7 +16,8 @@ function sendRequest(url, method, data) {
 // This will be the object that will contain the Vue attributes
 // and be used to initialize it.
 let cart = {};
-const DOMAIN_NAME= '127.0.0.1:8000';
+const DOMAIN_NAME= 'salty-eyrie-13923';
+// const DOMAIN_NAME= '127.0.0.1:8000';
 
 // Given an empty cart object, initializes it filling its attributes,
 // creates a Vue instance, and then initializes the Vue instance.
@@ -31,7 +32,7 @@ let i = (cart) => {
     };
 
     cart.increment_item = (index, item_id) => {
-        sendRequest("http://" + DOMAIN_NAME + "/add_cart/" + item_id, 'get')
+        sendRequest("https://" + DOMAIN_NAME + "/add_cart/" + item_id, 'get')
             .then(function (response) {
                 cart.vue.cart[index][1].quantity+= 1;
                 cart.data.count+= 1;
@@ -41,7 +42,7 @@ let i = (cart) => {
 
     cart.decrement_item = (index, item_id) => {
         if (cart.vue.cart[index][1].quantity > 0) {
-            sendRequest("http://" + DOMAIN_NAME + "/remove_from_cart/" + item_id, 'get')
+            sendRequest("https://" + DOMAIN_NAME + "/remove_from_cart/" + item_id, 'get')
                 .then(function (response) {
                         cart.vue.cart[index][1].quantity-= 1;
                         cart.data.count-= 1;
