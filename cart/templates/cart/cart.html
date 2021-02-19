@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="vue-cart">
+    {% if messages %}
+        {% for message in messages %}
+            <article class="message is-success">
+                <div class="message-header">
+                    <p>Super!</p>
+                </div>
+                <div class="message-body">
+                    {{ message }}
+                </div>
+            </article>
+        {% endfor %}
+    {% endif %}
+    <div class="section" v-if="cart.length != 0">
+        <div class="columns">
+            <div class="column">
+                <article class="media" v-for="(item, index) in cart">
+                    <a :href="'/products/detail/'+item[0]">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img :src="item[1].image">
+                            </p>
+                        </figure>
+                    </a>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>[[ item[1].name ]]</strong>
+                                <br>
+                                [[ item[1].description ]]
+                            </p>
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+                                <p class="level-item has-text-weight-bold">
+                                    $[[ item[1].unit_price / 100 ]]
+                                </p>
+                            </div>
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <div class="field is-grouped">
+                                        <p class="control">
+                                            <a class="button" @click="increment_item(index, item[0])">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </p>
+                                        <p class="control is-size-5 has-text-weight-bold">
+                                            [[ item[1].quantity ]]
+                                        </p>
+                                        <p class="control">
+                                            <a class="button" @click="decrement_item(index, item[0])">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+            <div class="column is-centered is-one-third">
+                <div class="card">
+                    <div class="card-content">
+                        <p class="subtitle">
+                            Subtotal: ([[ count ]])
+                        </p>
+                        <p class="title">
+                            $[[ (subtotal / 100).toFixed(2) ]]
+                        </p>
+                    </div>
+                    <footer class="card-footer">
+                        <button id="checkout-button" class="button card-footer-item is-warning" @click="checkout()">
+                            <i class="icon fas fa-credit-card"></i>
+                            <p>Proceed to checkout</p>
+                        </button>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-else>
+        <section class="hero is-light">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Your cart is empty!
+                    </h1>
+                    <a class="subtitle has-text-link" href="{% url 'home' %}">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'cart/js/cart.js' %}"></script>
+{% endblock %}

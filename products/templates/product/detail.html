@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load product_extras %}
+
+{% block content %}
+<div id="vue-product">
+    <div class="section">
+        <div class="section">
+            <div class="columns is-centered">
+                <div class="column is-one-third">
+                    <div class="card">
+                        <div class="card-image">
+                            <a :href="selected">
+                                <figure class="image">
+                                    <img :src="selected">
+                                </figure>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="columns is-multiline is-mobile">
+                            <div class="column is-one-third" v-for="(img,index) in images">
+                                <div class="card">
+                                    <a @click="update_selected(index)">
+                                        <div class="card-image">
+                                            <figure class="image">
+                                                <img :src="img">
+                                            </figure>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="card">
+                        <div class="card-content">
+                            <p>
+                                <strong>{{ product.name }}</strong>
+                                {% if request.user.is_superuser %}
+                                    {% if not product.is_active %}
+                                        (archive)
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                            <p>
+                                {{ product.description }}
+                            </p>
+                        </div>
+                        <footer class="card-footer">
+                            <div class="card-footer-item">
+                                <strong>${{ product.price|divide:"100" }}</strong>
+                            </div>
+                            {% if request.user.is_superuser %}
+                            <a href="{% url 'edit' product.id %}" class="card-footer-item">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            {% else %}
+                            <div class="card-footer-item">
+                                <a href="{% url 'add_cart' product.id %}">
+                                    <i class="fas fa-cart-plus"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </footer>
+                    </div>
+                    <div class="section has-text-centered">
+                        {% if request.user.is_superuser %}
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <a href="{% url 'create_image' product.id %}" class="button is-link">
+                                    Add Image
+                                </a>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <a href="{% url 'images' product.id %}" class="button is-link">
+                                    Edit Images
+                                </a>
+                            </div>
+                        </nav>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %} 
+    {{ block.super }}
+    <script src="{% static 'products/js/product.js' %}"></script>
+{% endblock %}

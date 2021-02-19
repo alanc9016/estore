@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="section">
+        <form method="post">{% csrf_token %}
+            <p class="title">Are you sure you want to delete this item?</p>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-danger">Submit</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'home' %}" class="button is-light">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}

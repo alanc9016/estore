@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="section">
+        <div class="section">
+            <h1 class="title">{{product.name}}</h1>
+        </div>
+        <form action method="post" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="field is-grouped">
+                <div class="file has-name control">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="image">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-link">Submit</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'detail' product.id %}" class="button is-light">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

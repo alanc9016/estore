@@ -1,0 +1,57 @@
+{% load static %}
+<div id="vue-target">
+    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <div class="container has-text-centered">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{% url 'home' %}">
+                    <img src="{% static 'images/ikea.png' %}">
+                </a>
+
+                <a class="navbar-burger burger"  @click="showNav = !showNav"
+                   :class="{ 'is-active': showNav }" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+                <div class="navbar-start">
+                    {% if request.user.is_superuser %}
+                        <a class="navbar-item" href="{% url 'create_material' %}">
+                            Add a Material
+                        </a>
+                    {% endif %}
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <form action="{% url 'search' %}" method="get">
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <label>
+                                        <input name="q" class="input" type="text" placeholder="Search...">
+                                    </label>
+                                </div>
+                                <div class="control">
+                                    <button type="submit" class="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {% if not request.user.is_superuser %}
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a href="{% url 'cart' %}" class="button is-warning">
+                                    <i class="icon fas fa-shopping-cart"></i>
+                                    <strong>Cart</strong>
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

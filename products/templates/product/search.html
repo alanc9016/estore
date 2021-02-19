@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="section">
+    {% if images %}
+    <div class="section has-text-centered">
+        <h1 class="title">Products</h1>
+    </div>
+    <div class="columns is-multiline is-centered">
+        {% for image in page_obj %}
+        <div class="column is-one-quarter">
+            <div class="card">
+                <div class="card-image">
+                    <a href="{% url 'detail' image.product.id %}">
+                        <figure class="image">
+                            <img src="{{ image.image.url }}">
+                        </figure>
+                    </a>
+                </div>
+                <footer class="card-footer">
+                    <p class="card-footer-item">
+                        <span class="has-text-weight-bold">
+                            {{ image.product }}
+                        </span>
+                    </p>
+                </footer>
+            </div>
+        </div>
+        {% endfor %}
+        {% for product in products %}
+            <div class="column is-one-quarter">
+                <div class="card">
+                    <a href="{% url 'detail' product.id %}">
+                        <div class="card-content">
+                            {{ product }}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="section has-text-centered">
+        <section class="hero is-light">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title">
+                <span class="icon is-large">
+                    <i class="fas fa-2x fa-sad-tear"></i>
+                </span>
+              </h1>
+              <h2 class="subtitle">
+                No results were found!
+              </h2>
+            </div>
+          </div>
+        </section>
+    </div>
+    {% endif %}
+</div>
+<nav class="pagination is-centered is-rounded" role="navigation" aria-label="navigation">
+    {% if page_obj.has_previous %}
+        <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}">
+            <i class="fas fa-caret-left"></i>
+        </a>
+        {% else %}
+        <a class="pagination-previous" disabled>
+            <i class="fas fa-caret-left"></i>
+        </a>
+    {% endif %}
+    <ul class="pagination-list">
+        <li><a class="pagination-link is-current">{{page_obj.number}}</a></li>
+    </ul>
+    {% if page_obj.has_next %}
+        <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">
+            <i class="fas fa-caret-right"></i>
+        </a>
+        {% else %}
+        <a class="pagination-next" disabled>
+            <i class="fas fa-caret-right"></i>
+        </a>
+    {% endif %}
+</nav>
+{% endblock %}

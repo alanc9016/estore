@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="section">
+        <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" name="name" value="{{ product.name }}" placeholder="{{ product.name }}">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <textarea class="textarea" type="text" name="description" placeholder="{{ product.description }}">{{ product.description }}</textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="number" name="price" min="0" step="1" placeholder=" {{ product.price }}" value="{{ product.price }}">
+                </div>
+            </div>
+
+
+            <div class="field">
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" name="is_active" checked>
+                        Active
+                    </label>
+                </div>
+            </div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-link">Submit</button>
+                </div>
+                <div class="control">
+                    <a href="{% url 'detail' product.id %}" class="button is-light">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}
