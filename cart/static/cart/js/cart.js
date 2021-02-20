@@ -16,7 +16,7 @@ function sendRequest(url, method, data) {
 // This will be the object that will contain the Vue attributes
 // and be used to initialize it.
 let cart = {};
-const DOMAIN_NAME= 'salty-eyrie-13923';
+const DOMAIN_NAME= 'salty-eyrie-13923.herokuapp.com'
 // const DOMAIN_NAME= '127.0.0.1:8000';
 
 // Given an empty cart object, initializes it filling its attributes,
